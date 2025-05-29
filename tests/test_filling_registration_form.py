@@ -16,27 +16,22 @@ def test_filling_registration_form(browser):
 
     # Имя
     first_name = browser.find_element(By.ID, "firstName")
-    scroll_to_element(browser, first_name)
     first_name.send_keys(test_data["first_name"])
 
     # Фамилия
     last_name = browser.find_element(By.ID, "lastName")
-    scroll_to_element(browser, last_name)
     last_name.send_keys(test_data["last_name"])
 
     # Email
     user_email = browser.find_element(By.ID, "userEmail")
-    scroll_to_element(browser, user_email)
     user_email.send_keys(test_data["email"])
 
     # Пол
     gender_radio = browser.find_element(By.CSS_SELECTOR, "label[for='gender-radio-1']")
-    scroll_to_element(browser, gender_radio)
     gender_radio.click()
 
     # Телефон
     user_number = browser.find_element(By.ID, "userNumber")
-    scroll_to_element(browser, user_number)
     user_number.send_keys(test_data["phone"])
 
     # Дата рождения
@@ -46,16 +41,13 @@ def test_filling_registration_form(browser):
 
     # Выбор месяца и года
     month_select = browser.find_element(By.CLASS_NAME, "react-datepicker__month-select")
-    scroll_to_element(browser, month_select)
     month_select.send_keys("May")
 
     year_select = browser.find_element(By.CLASS_NAME, "react-datepicker__year-select")
-    scroll_to_element(browser, year_select)
     year_select.send_keys("1995")
 
     # Клик по дню месяца
     day = browser.find_element(By.CSS_SELECTOR, ".react-datepicker__day--020")
-    scroll_to_element(browser, day)
     day.click()
 
     # Предмет
@@ -103,12 +95,14 @@ def test_filling_registration_form(browser):
     submit_btn = browser.find_element(By.ID, "submit")
     scroll_to_element(browser, submit_btn)
     submit_btn.click()
+
     # Проверка появления модального окна после отправки
     modal = WebDriverWait(browser, 10).until(
         EC.visibility_of_element_located((By.ID, "example-modal-sizes-title-lg"))
     )
     assert modal.is_displayed()
     assert "Thanks for submitting the form" in modal.text
+
     # Дополнительная проверка данных в модальном окне
     modal_table = browser.find_element(By.CSS_SELECTOR, ".modal-body table")
     modal_rows = modal_table.find_elements(By.TAG_NAME, "tr")
