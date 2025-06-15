@@ -9,6 +9,12 @@ class Gender(Enum):
     OTHER = "Other"
 
 
+class Hobby(Enum):
+    SPORTS = "Sports"
+    MUSIC = "Music"
+    READING = "Reading"
+
+
 @dataclass
 class User:
     first_name: str
@@ -19,7 +25,7 @@ class User:
     birth_date: datetime.date
     address: str
     picture: str
-    hobbies: list[str] = None
+    hobby: Hobby
     subjects: list[str] = None
     state: str = ""
     city: str = ""
@@ -34,8 +40,24 @@ student = User(
     birth_date=datetime.date(1995, 5, 20),
     address="Test address",
     picture="tests/test1.jpeg",
-    hobbies=["Sports"],
+    hobby=Hobby.SPORTS,
     subjects=["Physics"],
     state="NCR",
     city="Delhi"
+)
+
+
+@dataclass
+class NewUser:
+    name: str
+    email: str
+    current_address: str
+    permanent_address: str
+
+
+new_student = NewUser(
+    name="Ivan Ivanov",
+    email="ivan@test.ru",
+    current_address="ул. Пушкина 1",
+    permanent_address="ул. Лермонтова 2"
 )

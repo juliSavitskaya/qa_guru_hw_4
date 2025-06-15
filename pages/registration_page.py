@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from users.user import User, Gender
+from users.user import User, Gender, Hobby
 
 
 class RegistrationPage:
@@ -28,7 +28,7 @@ class RegistrationPage:
         self._fill_phone(user.phone)
         self._set_birth_date(user.birth_date)
         self._fill_subjects(user.subjects)
-        self._fill_hobbies(user.hobbies)
+        self._fill_hobby(user.hobby)
         self._upload_picture(user.picture)
         self._fill_address(user.address)
         self._fill_state_city(user.state, user.city)
@@ -58,7 +58,7 @@ class RegistrationPage:
         assert modal_data["Mobile"] == user.phone
         assert modal_data["Date of Birth"] == user.birth_date.strftime("%d %B,%Y")
         assert modal_data["Subjects"] == ", ".join(user.subjects)
-        assert modal_data["Hobbies"] == ", ".join(user.hobbies)
+        assert modal_data["Hobbies"] == user.hobby.value
         assert modal_data["Picture"] == os.path.basename(user.picture)
         assert modal_data["Address"] == user.address
         assert modal_data["State and City"] == f"{user.state} {user.city}"
@@ -101,11 +101,10 @@ class RegistrationPage:
             input_.send_keys(subject)
             input_.send_keys(Keys.ENTER)
 
-    def _fill_hobbies(self, hobbies):
-        for hobby in hobbies:
-            label = self.browser.find_element(By.XPATH, f"//label[text()='{hobby}']")
-            self.scroll_to_element(label)
-            label.click()
+    def _fill_hobby(self, hobby: Hobby):
+        label = self.browser.find_element(By.XPATH, f"//label[text()='{hobby.value}']")
+        self.scroll_to_element(label)
+        label.click()
 
     def _upload_picture(self, file_path):
         abs_path = os.path.abspath(file_path)
